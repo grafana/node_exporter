@@ -15,12 +15,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/prometheus/common/promlog"
-	"github.com/prometheus/common/promlog/flag"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
 	"sort"
+
+	"github.com/prometheus/common/promlog"
+	"github.com/prometheus/common/promlog/flag"
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
@@ -43,14 +44,16 @@ type handler struct {
 	includeExporterMetrics  bool
 	maxRequests             int
 	logger                  log.Logger
+	extraHeaders            map[string]string
 }
 
-func newHandler(includeExporterMetrics bool, maxRequests int, logger log.Logger) *handler {
+func newHandler(includeExporterMetrics bool, maxRequests int, logger log.Logger, extraHeaders map[string]string) *handler {
 	h := &handler{
 		exporterMetricsRegistry: prometheus.NewRegistry(),
 		includeExporterMetrics:  includeExporterMetrics,
 		maxRequests:             maxRequests,
 		logger:                  logger,
+		extraHeaders:            extraHeaders,
 	}
 	if h.includeExporterMetrics {
 		h.exporterMetricsRegistry.MustRegister(
@@ -68,6 +71,10 @@ func newHandler(includeExporterMetrics bool, maxRequests int, logger log.Logger)
 
 // ServeHTTP implements http.Handler.
 func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	for k, v := range h.extraHeaders {
+		w.Header().Add(k, v)
+	}
+
 	filters := r.URL.Query()["collect[]"]
 	level.Debug(h.logger).Log("msg", "collect query:", "filters", filters)
 
@@ -157,6 +164,10 @@ func main() {
 			"web.config",
 			"Path to config yaml file that can enable TLS or authentication.",
 		).Default("").String()
+		extraHeaders = kingpin.Flag(
+			"web.extra-headers",
+			"Additional headers to add to HTTP responses.  Can be repeated.",
+		).StringMap()
 	)
 
 	promlogConfig := &promlog.Config{}
@@ -169,8 +180,12 @@ func main() {
 	level.Info(logger).Log("msg", "Starting node_exporter", "version", version.Info())
 	level.Info(logger).Log("msg", "Build context", "build_context", version.BuildContext())
 
-	http.Handle(*metricsPath, newHandler(!*disableExporterMetrics, *maxRequests, logger))
+	http.Handle(*metricsPath, newHandler(!*disableExporterMetrics, *maxRequests, logger, *extraHeaders))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		for k, v := range *extraHeaders {
+			w.Header().Add(k, v)
+		}
+
 		w.Write([]byte(`<html>
 			<head><title>Node Exporter</title></head>
 			<body>
