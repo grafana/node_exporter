@@ -921,10 +921,6 @@ local utils = commonlib.utils;
         + table.queryOptions.withTransformationsMixin(
           [
             {
-              id: 'timeSeriesTable',
-              options: {},
-            },
-            {
               id: 'joinByField',
               options: {
                 byField: 'device',
@@ -935,14 +931,14 @@ local utils = commonlib.utils;
               id: 'filterFieldsByName',
               options: {
                 include: {
-                  pattern: 'device|duplex|address|Value.+|Trend.+',
+                  pattern: 'device|duplex|address|Value.+',
                 },
               },
             },
             {
               id: 'renameByRegex',
               options: {
-                regex: '(Value|Trend) #(.*)',
+                regex: '(Value) #(.*)',
                 renamePattern: '$2',
               },
             },
