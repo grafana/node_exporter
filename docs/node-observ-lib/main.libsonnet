@@ -133,6 +133,7 @@ local commonlib = import 'common-lib/common/main.libsonnet';
       extraLogLabels: ['transport', 'unit', 'level'],
       logsVolumeGroupBy: 'level',
       showLogsVolume: true,
+      logsFilteringSelector: self.filteringSelector,
       logsExtraFilters:
         |||
           | label_format timestamp="{{__timestamp__}}"

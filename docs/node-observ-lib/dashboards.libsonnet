@@ -182,7 +182,7 @@ local logslib = import 'github.com/grafana/jsonnet-libs/logs-lib/logs/main.libso
             prefix + 'logs',
             datasourceName=this.grafana.variables.datasources.loki.name,
             datasourceRegex=this.grafana.variables.datasources.loki.regex,
-            filterSelector=this.config.filteringSelector,
+            filterSelector=this.config.logsFilteringSelector,
             labels=this.config.groupLabels + this.config.instanceLabels + this.config.extraLogLabels,
             formatParser=null,
             showLogsVolume=this.config.showLogsVolume,
