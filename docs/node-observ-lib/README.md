@@ -20,14 +20,15 @@ You can use observ-lib to fill in monitoring-mixin structure:
 local nodelib = import 'node-observ-lib/main.libsonnet';
 
 local linux =
-  nodelib.new(
-    filteringSelector='job="node"',
-    groupLabels=['job'],
-    instanceLabels=['instance'],
-    dashboardNamePrefix='Node exporter / ',
-    dashboardTags=['node-exporter-mixin'],
-    uid='node'
-  )
+  nodelib.new()
+  + nodelib.withConfigMixin({
+    filteringSelector: 'job=~".*node.*"',
+    groupLabels: ['job'],
+    instanceLabels: ['instance'],
+    dashboardNamePrefix: 'Node exporter / ',
+    dashboardTags: ['node-exporter-mixin'],
+    uid: 'node',
+  })
   + nodelib.withConfigMixin(
     {
       // enable loki logs
@@ -51,14 +52,15 @@ local g = import './g.libsonnet';
 local nodelib = import 'node-observ-lib/main.libsonnet';
 
 local linux =
-  nodelib.new(
-    filteringSelector='job="node"',
-    groupLabels=['job'],
-    instanceLabels=['instance'],
-    dashboardNamePrefix='Node exporter / ',
-    dashboardTags=['node-exporter-mixin'],
-    uid='node'
-  )
+  nodelib.new()
+  + nodelib.withConfigMixin({
+    filteringSelector: 'job=~".*node.*"',
+    groupLabels: ['job'],
+    instanceLabels: ['instance'],
+    dashboardNamePrefix: 'Node exporter / ',
+    dashboardTags: ['node-exporter-mixin'],
+    uid: 'node',
+  })
   + {
       grafana+: {
         panels+: {
