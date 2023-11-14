@@ -1,6 +1,6 @@
-# Node exporter observ lib
+# Node exporter observability lib
 
-This jsonnet observ lib can be used to generate observ package for node exporter.
+This jsonnet observability lib can be used to generate observability package for node exporter.
 
 ## Import
 
