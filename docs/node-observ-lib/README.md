@@ -28,13 +28,9 @@ local linux =
     dashboardNamePrefix: 'Node exporter / ',
     dashboardTags: ['node-exporter-mixin'],
     uid: 'node',
-  })
-  + nodelib.withConfigMixin(
-    {
-      // enable loki logs
-      enableLokiLogs: true,
-    }
-  );
+    // enable loki logs
+    enableLokiLogs: true,
+  });
 
 {
   grafanaDashboards+:: linux.grafana.dashboards,
@@ -44,7 +40,29 @@ local linux =
 
 ```
 
-### Example 2: Modify specific panel before rendering dashboards
+### Example 2: Fill in monitoring-mixin with default config values and enable loki logs:
+
+You can use observ-lib to fill in monitoring-mixin structure:
+
+```jsonnet
+// mixin.libsonnet file
+local nodelib = import 'node-observ-lib/main.libsonnet';
+
+local linux =
+  nodelib.new()
+  + nodelib.withConfigMixin({
+    enableLokiLogs: true,
+  });
+
+{
+  grafanaDashboards+:: linux.grafana.dashboards,
+  prometheusAlerts+:: linux.prometheus.alerts,
+  prometheusRules+:: linux.prometheus.recordingRules,
+}
+
+```
+
+### Example 3: Modify specific panel before rendering dashboards
 
 ```jsonnet
 local g = import './g.libsonnet';
