@@ -42,7 +42,6 @@ local linux =
 
 ### Example 2: Fill in monitoring-mixin with default config values and enable loki logs:
 
-You can use observ-lib to fill in monitoring-mixin structure:
 
 ```jsonnet
 // mixin.libsonnet file
@@ -62,7 +61,42 @@ local linux =
 
 ```
 
-### Example 3: Modify specific panel before rendering dashboards
+### Example 3: Override some of default config values from file:
+
+
+```jsonnet
+// overrides.libsonnet
+{
+  // Memory utilzation (%) level on which to trigger the
+  // 'NodeMemoryHighUtilization' alert.
+  memoryHighUtilizationThreshold: 80,
+
+  // Threshold for the rate of memory major page faults to trigger
+  // 'NodeMemoryMajorPagesFaults' alert.
+  memoryMajorPagesFaultsThreshold: 1000,
+
+  // Disk IO queue level above which to trigger
+  // 'NodeDiskIOSaturation' alert.
+  diskIOSaturationThreshold: 20,
+}
+
+// mixin.libsonnet file
+local configOverride = import './overrides.libsonnet';
+local nodelib = import 'node-observ-lib/main.libsonnet';
+
+local linux =
+  nodelib.new()
+  + nodelib.withConfigMixin(configOverride);
+
+{
+  grafanaDashboards+:: linux.grafana.dashboards,
+  prometheusAlerts+:: linux.prometheus.alerts,
+  prometheusRules+:: linux.prometheus.recordingRules,
+}
+
+```
+
+### Example 4: Modify specific panel before rendering dashboards
 
 ```jsonnet
 local g = import './g.libsonnet';
