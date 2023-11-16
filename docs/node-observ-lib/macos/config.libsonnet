@@ -45,6 +45,7 @@
     'NodeNetworkTransmitErrs',
     'NodeTextFileCollectorScrapeError',
     'NodeFilesystemFilesFillingUp',
+    'NodeFilesystemAlmostOutOfFiles',
   ],
   // logs lib related
   enableLokiLogs: true,
