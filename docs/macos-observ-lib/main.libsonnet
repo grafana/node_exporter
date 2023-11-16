@@ -1,3 +1,4 @@
+local alerts = import './alerts.libsonnet';
 local config = import './config.libsonnet';
 local g = import './g.libsonnet';
 local panels = import './panels.libsonnet';
@@ -48,23 +49,7 @@ nodelib
       },
       prometheus+: {
         recordingRules: {},
-        alerts:
-          {
-            groups:
-              [
-                {
-                  name: group.name,
-                  rules: [
-                    rule
-                    for rule in group.rules
-                    if std.length(std.find(rule.alert, this.config.alertsMacKeep)) > 0
-                  ],
-                }
-                for group in parentPrometheus.alerts.groups
-              ],
-
-          },
-
+        alerts: alerts.new(this, parentPrometheus),
       },
     },
 
