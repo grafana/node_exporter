@@ -39,8 +39,13 @@
   dashboardRefresh: '1m',
 
   // Alerts to keep from node-observ-lib:
-  alertsMacKeep: ['NodeFilesystemAlmostOutOfSpace'],
-
+  alertsMacKeep: [
+    'NodeFilesystemAlmostOutOfSpace',
+    'NodeNetworkReceiveErrs',
+    'NodeNetworkTransmitErrs',
+    'NodeTextFileCollectorScrapeError',
+    'NodeFilesystemFilesFillingUp',
+  ],
   // logs lib related
   enableLokiLogs: true,
   extraLogLabels: ['filename', 'sender'],
