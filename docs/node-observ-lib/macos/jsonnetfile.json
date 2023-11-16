@@ -27,14 +27,6 @@
         }
       },
       "version": "master"
-    },
-    {
-      "source": {
-        "local": {
-          "directory": "../node-observ-lib"
-        }
-      },
-      "version": ""
     }
   ],
   "legacyImports": true

@@ -1,9 +1,9 @@
+local nodelib = import '../linux/main.libsonnet';
 local alerts = import './alerts.libsonnet';
 local config = import './config.libsonnet';
 local g = import './g.libsonnet';
 local panels = import './panels.libsonnet';
 local targets = import './targets.libsonnet';
-local nodelib = import 'node-observ-lib/main.libsonnet';
 
 
 // inherit nodelib

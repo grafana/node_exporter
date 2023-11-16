@@ -17,7 +17,7 @@ You can use observ-lib to fill in monitoring-mixin structure:
 
 ```jsonnet
 // mixin.libsonnet file
-local nodelib = import 'node-observ-lib/main.libsonnet';
+local nodelib = import 'node-observ-lib/linux/main.libsonnet';
 
 local linux =
   nodelib.new()
@@ -45,7 +45,7 @@ local linux =
 
 ```jsonnet
 // mixin.libsonnet file
-local nodelib = import 'node-observ-lib/main.libsonnet';
+local nodelib = import 'node-observ-lib/linux/main.libsonnet';
 
 local linux =
   nodelib.new()
@@ -82,7 +82,7 @@ local linux =
 
 // mixin.libsonnet file
 local configOverride = import './overrides.libsonnet';
-local nodelib = import 'node-observ-lib/main.libsonnet';
+local nodelib = import 'node-observ-lib/linux/main.libsonnet';
 
 local linux =
   nodelib.new()
@@ -101,7 +101,7 @@ local linux =
 ```jsonnet
 local g = import './g.libsonnet';
 // mixin.libsonnet file
-local nodelib = import 'node-observ-lib/main.libsonnet';
+local nodelib = import 'node-observ-lib/linux/main.libsonnet';
 
 local linux =
   nodelib.new()

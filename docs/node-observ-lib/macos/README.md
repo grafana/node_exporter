@@ -6,7 +6,7 @@ This jsonnet observability lib can be used to generate observability package for
 
 ```sh
 jb init
-jb install https://github.com/grafana/node_exporter/docs/macos-observ-lib
+jb install https://github.com/grafana/node_exporter/docs/node-observ-lib
 ```
 
 ## Examples
@@ -17,7 +17,7 @@ You can use observ-lib to fill in monitoring-mixin structure:
 
 ```jsonnet
 // mixin.libsonnet file
-local macoslib = import 'macos-observ-lib/main.libsonnet';
+local macoslib = import 'node-observ-lib/macos/main.libsonnet';
 
 local mac =
   macoslib.new()
@@ -39,7 +39,7 @@ local mac =
 }
 
 ```
-For more examples see [node-observ-lib](../node-observ-lib).
+For more examples see [node-observ-lib/linux](../linux).
 
 ## Collectors used:
 
