@@ -1,4 +1,4 @@
-local macoslib = import './main.libsonnet';
+local macoslib = import './macos/main.libsonnet';
 local macos = macoslib.new();
 
 {

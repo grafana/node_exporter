@@ -1,4 +1,4 @@
-local g = import './g.libsonnet';
+local g = import '../g.libsonnet';
 local logslib = import 'github.com/grafana/jsonnet-libs/logs-lib/logs/main.libsonnet';
 {
   local root = self,
