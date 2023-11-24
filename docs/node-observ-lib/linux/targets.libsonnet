@@ -696,6 +696,34 @@ local lokiQuery = g.query.loki;
         'irate(node_network_receive_bytes_total{%(queriesSelector)s}[$__rate_interval])*8' % variables
       )
       + prometheusQuery.withLegendFormat('{{ device }} received'),
+    networkOutBitPerSecFiltered:
+      prometheusQuery.new(
+        prometheusDatasource,
+        |||
+          irate(node_network_transmit_bytes_total{%(queriesSelector)s}[$__rate_interval])*8
+          # only show interfaces that had traffic change at least once during selected dashboard interval:
+          and
+          increase(
+              node_network_transmit_bytes_total{%(queriesSelector)s}[$__range]
+              ) > 0
+        ||| % variables
+      )
+      + prometheusQuery.withLegendFormat('{{ device }} transmitted'),
+    networkInBitPerSecFiltered:
+      prometheusQuery.new(
+        prometheusDatasource,
+        |||
+          irate(node_network_receive_bytes_total{%(queriesSelector)s}[$__rate_interval])*8
+          # only show interfaces that had traffic change at least once during selected dashboard interval:
+          and
+          increase(
+              node_network_receive_bytes_total{%(queriesSelector)s}[$__range]
+              ) > 0
+        ||| % variables
+      )
+      + prometheusQuery.withLegendFormat('{{ device }} received'),
+
+
     networkOutErrorsPerSec:
       prometheusQuery.new(
         prometheusDatasource,
