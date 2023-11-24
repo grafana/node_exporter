@@ -680,12 +680,18 @@ local utils = commonlib.utils;
       networkErrorsAndDroppedPerSec:
         commonlib.panels.network.timeSeries.errors.new(
           'Network errors and dropped packets',
-          targets=[
-            t.networkOutErrorsPerSec,
-            t.networkInErrorsPerSec,
-            t.networkOutDroppedPerSec,
-            t.networkInDroppedPerSec,
-          ],
+          targets=std.map(
+            function(t) t
+                        {
+              expr: t.expr + '>0',
+            },
+            [
+              t.networkOutErrorsPerSec,
+              t.networkInErrorsPerSec,
+              t.networkOutDroppedPerSec,
+              t.networkInDroppedPerSec,
+            ]
+          ),
           description=|||
             **Network errors**:
 
@@ -711,7 +717,7 @@ local utils = commonlib.utils;
           targets=std.map(
             function(t) t
                         {
-              expr: 'topk(25, ' + t.expr + ')>0.5',
+              expr: 'topk(25, ' + t.expr + ')>0',
               legendFormat: '{{' + this.config.instanceLabels[0] + '}}: ' + std.get(t, 'legendFormat', '{{ nic }}'),
             },
             [
@@ -757,7 +763,7 @@ local utils = commonlib.utils;
         + commonlib.panels.network.timeSeries.errors.withNegateOutPackets(),
       networkUsagePerSec:
         commonlib.panels.network.timeSeries.traffic.new(
-          targets=[t.networkInBitPerSec, t.networkOutBitPerSec]
+          targets=[t.networkInBitPerSecFiltered, t.networkOutBitPerSecFiltered]
         )
         + commonlib.panels.network.timeSeries.traffic.withNegateOutPackets(),
       networkPacketsPerSec:
