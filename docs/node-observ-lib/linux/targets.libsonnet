@@ -1141,7 +1141,7 @@ local lokiQuery = g.query.loki;
         prometheusDatasource,
         'node_hwmon_temp_celsius{%(queriesSelector)s}' % variables
       )
-      + prometheusQuery.withLegendFormat('{{sensor}}'),
+      + prometheusQuery.withLegendFormat('{{chip}}/{{sensor}}'),
 
   },
 }
