@@ -60,7 +60,15 @@ local logslib = import 'github.com/grafana/jsonnet-libs/logs-lib/logs/main.libso
               g.panel.row.new('Network'),
               panels.networkUsagePerSec { gridPos+: { w: 12, h: 8 } },
               panels.networkErrorsAndDroppedPerSec { gridPos+: { w: 12, h: 8 } },
-            ], 6, 2
+
+            ]
+            +
+            if this.config.enableHardware then
+              [
+                g.panel.row.new('Hardware'),
+                panels.hardwareTemperature { gridPos+: { w: 12, h: 8 } },
+              ] else []
+            , 6, 2
           )
         )
         // defaults to uid=nodes for backward compatibility with old node-mixins

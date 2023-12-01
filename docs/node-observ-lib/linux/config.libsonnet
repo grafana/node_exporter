@@ -84,6 +84,11 @@
   // 'NodeDiskIOSaturation' alert.
   diskIOSaturationThreshold: 10,
 
+  // Enable hardware related panels and alerts (temp sensors)
+  enableHardware: false,
+  // Temperature sensor treshold
+  temperatureWarnTreshold: 80,
+
   rateInterval: '5m',
 
   dashboardPeriod: 'now-1h',

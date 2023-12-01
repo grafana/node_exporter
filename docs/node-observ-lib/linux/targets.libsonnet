@@ -1135,5 +1135,13 @@ local lokiQuery = g.query.loki;
         'irate(node_netstat_Icmp6_InErrors{%(queriesSelector)s}[$__rate_interval])' % variables
       )
       + prometheusQuery.withLegendFormat('ICMP6 errors'),
+
+    hardwareTemperature:
+      prometheusQuery.new(
+        prometheusDatasource,
+        'node_hwmon_temp_celsius{%(queriesSelector)s}' % variables
+      )
+      + prometheusQuery.withLegendFormat('{{sensor}}'),
+
   },
 }

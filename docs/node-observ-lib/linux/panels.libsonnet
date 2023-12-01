@@ -1138,5 +1138,11 @@ local utils = commonlib.utils;
           description='Rate of ICMP messages received and transmitted with errors.'
         )
         + panel.standardOptions.withUnit('err/s'),
+
+      hardwareTemperature:
+        commonlib.panels.hardware.timeSeries.temperature.new(
+          'Temperature',
+          targets=[t.hardwareTemperature]
+        ),
     },
 }
