@@ -425,7 +425,7 @@
               },
               annotations: {
                 summary: 'Systemd service keeps restaring, possibly crash looping.',
-                description: 'Systemd service {{ $labels.name }} has being restarted too many times at {{ $labels.instance }} for the last 15 minutes. Please check if service is crash looping.',
+                description: 'Systemd service {{ $labels.name }} has been restarted too many times at {{ $labels.instance }} for the last 15 minutes. Please check if service is crash looping.',
               },
             },
           ]
