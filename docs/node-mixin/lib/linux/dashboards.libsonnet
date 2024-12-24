@@ -126,7 +126,7 @@ local logslib = import 'github.com/grafana/jsonnet-libs/logs-lib/logs/main.libso
                 )
               )
             )
-            + root.applyCommon(this.grafana.variables.use.singleInstance, std.md5(uid + '-cluster-rsrc-use.json'), tags, links, annotations, timezone, refresh, period),
+            + root.applyCommon(this.grafana.variables.use.singleInstance, std.md5(uid + '-rsrc-use.json'), tags, links, annotations, timezone, refresh, period),
 
           'node-cluster-rsrc-use.json':
             g.dashboard.new(prefix + 'USE method / cluster')
