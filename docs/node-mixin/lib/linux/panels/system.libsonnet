@@ -52,7 +52,7 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
             Time synchronization is essential to ensure accurate timekeeping, which is critical for many system operations such as logging, authentication, and network communication, as well as distributed systems or clusters where data consistency is important.
           |||
         )
-        + g.panel.timeSeries.standardOptions.withUnit('seconds')
+        + g.panel.timeSeries.standardOptions.withUnit('s')
         + g.panel.timeSeries.standardOptions.withNoValue('No data.'),
       osInfo: commonlib.panels.generic.stat.info.new(
         'OS',
