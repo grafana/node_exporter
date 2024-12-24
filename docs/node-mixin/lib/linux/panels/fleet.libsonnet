@@ -96,9 +96,9 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
             },
           ]),
           fieldOverride.byName.new('Cores')
-          + fieldOverride.byName.withProperty('custom.width', '120'),
+          + fieldOverride.byName.withProperty('custom.width', 120),
           fieldOverride.byName.new('CPU usage')
-          + fieldOverride.byName.withProperty('custom.width', '120')
+          + fieldOverride.byName.withProperty('custom.width', 120)
           + fieldOverride.byName.withProperty(
             'custom.cellOptions', {
               type: 'gauge',
@@ -110,12 +110,12 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
             commonlib.panels.cpu.timeSeries.utilization.stylize()
           ),
           fieldOverride.byName.new('Memory total')
-          + fieldOverride.byName.withProperty('custom.width', '120')
+          + fieldOverride.byName.withProperty('custom.width', 120)
           + fieldOverride.byName.withPropertiesFromOptions(
             table.standardOptions.withUnit('bytes')
           ),
           fieldOverride.byName.new('Memory usage')
-          + fieldOverride.byName.withProperty('custom.width', '120')
+          + fieldOverride.byName.withProperty('custom.width', 120)
           + fieldOverride.byName.withProperty(
             'custom.cellOptions', {
               type: 'gauge',
@@ -127,12 +127,12 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
             commonlib.panels.cpu.timeSeries.utilization.stylize()
           ),
           fieldOverride.byName.new('Root mount size')
-          + fieldOverride.byName.withProperty('custom.width', '120')
+          + fieldOverride.byName.withProperty('custom.width', 120)
           + fieldOverride.byName.withPropertiesFromOptions(
             table.standardOptions.withUnit('bytes')
           ),
           fieldOverride.byName.new('Root mount used')
-          + fieldOverride.byName.withProperty('custom.width', '120')
+          + fieldOverride.byName.withProperty('custom.width', 120)
           + fieldOverride.byName.withProperty(
             'custom.cellOptions', {
               type: 'gauge',
