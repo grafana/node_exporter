@@ -431,6 +431,23 @@
                 description: 'Systemd service {{ $labels.name }} has been restarted too many times at {{ $labels.instance }} for the last 15 minutes. Please check if service is crash looping.',
               },
             },
+            {
+              alert: 'NodeHasRebooted',
+              expr: |||
+                (time() - node_boot_time_seconds{%(filteringSelector)s}) < 600
+                and
+                (time() - (node_boot_time_seconds{%(filteringSelector)s} offset 10m)) > 600
+              ||| % this.config,
+              labels:
+                {
+                  severity: 'info',
+                },
+              annotations:
+                {
+                  summary: 'Node has rebooted.',
+                  description: 'Node {{ $labels.instance }} has rebooted {{ $value | humanize }} seconds ago.',
+                },
+            },
           ]
           + if this.config.enableHardware then
             [{
