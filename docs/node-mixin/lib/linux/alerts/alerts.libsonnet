@@ -448,6 +448,34 @@
                   description: 'Node {{ $labels.instance }} has rebooted {{ $value | humanize }} seconds ago.',
                 },
             },
+            {
+              alert: 'NodeProcessesCountIsHigh',
+              expr: |||
+                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdWarning)d
+              ||| % this.config,
+              'for': '5m',
+              labels: {
+                severity: 'warning',
+              },
+              annotations: {
+                summary: 'There is more than %(processLimitThresholdWarning)s running processes on host.',
+                description: 'There is {{ $value }} running processes on {{ $labels.instance }}.',
+              },
+            },
+            {
+              alert: 'NodeProcessesCountIsTooHigh',
+              expr: |||
+                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdCritical)d
+              ||| % this.config,
+              'for': '5m',
+              labels: {
+                severity: 'critical',
+              },
+              annotations: {
+                summary: 'There is more than %(processLimitThresholdCritical)s running processes on host.',
+                description: 'There is {{ $value }} running processes on {{ $labels.instance }}.',
+              },
+            },
           ]
           + if this.config.enableHardware then
             [{

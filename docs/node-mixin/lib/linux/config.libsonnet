@@ -107,6 +107,10 @@
   //used in USE dashboards only. For others, add cluster label to groupLabels var.
   clusterLabel: 'cluster',
 
+  // Thresholds for process count
+  processLimitThresholdWarning: 400,
+  processLimitThresholdCritical: 600,
+
   //custom allValue to use for dashboard variables
   customAllValue: '.+',
 
