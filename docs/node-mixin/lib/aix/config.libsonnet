@@ -20,6 +20,8 @@
     'NodeSystemSaturation',
     'NodeMemoryHighUtilization',
     'NodeDiskIOSaturation',
+    'NodeHasRebooted',
+    'NodeProcessesCountIsHigh',
   ],
   // logs lib related
   enableLokiLogs: false,

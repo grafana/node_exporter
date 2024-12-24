@@ -463,7 +463,7 @@
               },
             },
             {
-              alert: 'NodeProcessesCountIsTooHigh',
+              alert: 'NodeProcessesCountIsHigh',
               expr: |||
                 node_procs_running{%(filteringSelector)s} > %(processLimitThresholdCritical)d
               ||| % this.config,
