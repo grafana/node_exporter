@@ -467,7 +467,7 @@
             {
               alert: 'NodeProcessesCountIsHigh',
               expr: |||
-                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdCritical)
+                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdCritical)d
               ||| % this.config,
               'for': '5m',
               labels: {
