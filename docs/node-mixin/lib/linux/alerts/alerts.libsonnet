@@ -319,7 +319,7 @@
             {
               alert: 'NodeCPUHighUsage',
               expr: |||
-                sum without(mode) (avg without (cpu) (rate(node_cpu_seconds_total{%(filteringSelector)s, mode!="idle"}[2m]))) * 100 > %(cpuHighUsageThreshold)d
+                sum without(mode) (avg without (cpu) (rate(node_cpu_seconds_total{%(filteringSelector)s, mode!~"idle|iowait"}[2m]))) * 100 > %(cpuHighUsageThreshold)d
               ||| % this.config,
               'for': '15m',
               labels: {
@@ -329,6 +329,7 @@
                 summary: 'High CPU usage.',
                 description: |||
                   CPU usage at {{ $labels.instance }} has been above %(cpuHighUsageThreshold)d%% for the last 15 minutes, is currently at {{ printf "%%.2f" $value }}%%.
+                  Note that 'iowait' CPU mode is excluded from total utilization.
                 ||| % this.config,
               },
             },
