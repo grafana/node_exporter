@@ -452,28 +452,30 @@
             {
               alert: 'NodeProcessesCountIsHigh',
               expr: |||
-                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdWarning)s
+                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdWarning)d
               ||| % this.config,
               'for': '5m',
               labels: {
                 severity: 'warning',
               },
               annotations: {
-                summary: 'There is more than %(processLimitThresholdWarning)s running processes on host.',
+                summary: 'There is more than %(processLimitThresholdWarning)s running processes on host.'
+                         % this.config,
                 description: 'There is {{ $value }} running processes on {{ $labels.instance }}.',
               },
             },
             {
               alert: 'NodeProcessesCountIsHigh',
               expr: |||
-                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdCritical)s
+                node_procs_running{%(filteringSelector)s} > %(processLimitThresholdCritical)
               ||| % this.config,
               'for': '5m',
               labels: {
                 severity: 'critical',
               },
               annotations: {
-                summary: 'There is more than %(processLimitThresholdCritical)s running processes on host.',
+                summary: 'There is more than %(processLimitThresholdCritical)s running processes on host.'
+                         % this.config,
                 description: 'There is {{ $value }} running processes on {{ $labels.instance }}.',
               },
             },
