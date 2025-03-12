@@ -11,9 +11,7 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
       local instanceLabel = xtd.array.slice(this.config.instanceLabels, -1)[0],
 
       cpuCount: commonlib.panels.cpu.stat.count.new(targets=[t.cpu.cpuCount]),
-      cpuUsageTsPerCore: commonlib.panels.cpu.timeSeries.utilization.new(targets=[t.cpu.cpuUsagePerCore])
-                         + g.panel.timeSeries.fieldConfig.defaults.custom.withStacking({ mode: 'normal' }),
-
+      cpuUsageTsPerCore: commonlib.panels.cpu.timeSeries.utilization.new(targets=[t.cpu.cpuUsagePerCore]),
       cpuUsageTopk: commonlib.panels.generic.timeSeries.topkPercentage.new(
         title='CPU usage',
         target=t.cpu.cpuUsage,

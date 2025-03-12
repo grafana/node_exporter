@@ -21,7 +21,7 @@ local lokiQuery = g.query.loki;
         |||
           (((count by (%(instanceLabels)s) (count(node_cpu_seconds_total{%(queriesSelector)s}) by (cpu, %(instanceLabels)s))) 
           - 
-          avg by (%(instanceLabels)s) (sum by (%(instanceLabels)s, mode)(irate(node_cpu_seconds_total{mode='idle',%(queriesSelector)s}[$__rate_interval])))) * 100) 
+          sum by (%(instanceLabels)s) (sum by (%(instanceLabels)s, mode)(irate(node_cpu_seconds_total{mode=~'idle|iowait|steal',%(queriesSelector)s}[$__rate_interval])))) * 100) 
           / 
           count by(%(instanceLabels)s) (count(node_cpu_seconds_total{%(queriesSelector)s}) by (cpu, %(instanceLabels)s))
         ||| % variables { instanceLabels: std.join(',', this.config.instanceLabels) },
@@ -31,11 +31,7 @@ local lokiQuery = g.query.loki;
       prometheusQuery.new(
         prometheusDatasource,
         |||
-          (
-            (1 - sum without (mode) (rate(node_cpu_seconds_total{%(queriesSelector)s, mode=~"idle|iowait|steal"}[$__rate_interval])))
-          / ignoring(cpu) group_left
-            count without (cpu, mode) (node_cpu_seconds_total{%(queriesSelector)s, mode="idle"})
-          ) * 100
+          (100 - sum without (mode) (rate(node_cpu_seconds_total{%(queriesSelector)s, mode=~"idle|iowait|steal"}[$__rate_interval])) * 100 )
         ||| % variables,
       )
       + prometheusQuery.withLegendFormat('CPU {{cpu}}'),
