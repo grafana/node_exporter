@@ -51,7 +51,7 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
             function(t) t
                         {
               expr: 'topk(25, ' + t.expr + ')>0',
-              legendFormat: '{{' + this.config.instanceLabels[0] + '}}: ' + std.get(t, 'legendFormat', '{{ nic }}'),
+              legendFormat: '{{' + instanceLabel + '}}: ' + std.get(t, 'legendFormat', '{{ nic }}'),
             },
             [
               t.network.networkOutErrorsPerSec,
@@ -80,6 +80,13 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
             Dropped packets can impact network performance and lead to issues such as degraded voice or video quality in real-time applications.
           |||
         )
+        + g.panel.timeSeries.options.legend.withDisplayMode('table')
+        + g.panel.timeSeries.options.legend.withPlacement('right')
+        + g.panel.timeSeries.options.legend.withCalcsMixin([
+          'mean',
+          'max',
+          'lastNotNull',
+        ])
         + g.panel.timeSeries.fieldConfig.defaults.custom.withDrawStyle('points')
         + g.panel.timeSeries.fieldConfig.defaults.custom.withPointSize(5),
 
@@ -98,6 +105,28 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
         commonlib.panels.network.timeSeries.traffic.new(
           targets=[t.network.networkInBitPerSecFiltered, t.network.networkOutBitPerSecFiltered]
         )
+        + commonlib.panels.network.timeSeries.traffic.withNegateOutPackets(),
+      networkUsagePerSecTopK:
+        commonlib.panels.network.timeSeries.traffic.new(
+          title='Network traffic',
+          targets=std.map(
+            function(t) t
+                        {
+              expr: 'topk(25, ' + t.expr + ')>0',
+              legendFormat: '{{' + instanceLabel + '}}: ' + std.get(t, 'legendFormat', '{{ nic }}'),
+            },
+            [t.network.networkInBitPerSecFiltered, t.network.networkOutBitPerSecFiltered],
+
+          ),
+          description='Top 25 interfaces'
+        )
+        + g.panel.timeSeries.options.legend.withDisplayMode('table')
+        + g.panel.timeSeries.options.legend.withPlacement('right')
+        + g.panel.timeSeries.options.legend.withCalcsMixin([
+          'mean',
+          'max',
+          'lastNotNull',
+        ])
         + commonlib.panels.network.timeSeries.traffic.withNegateOutPackets(),
       networkPacketsPerSec:
         commonlib.panels.network.timeSeries.packets.new(

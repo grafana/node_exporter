@@ -17,6 +17,27 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
           loadTargets=[t.system.systemLoad1, t.system.systemLoad5, t.system.systemLoad15],
           cpuCountTarget=t.cpu.cpuCount,
         ),
+      systemLoadTopK:
+        commonlib.panels.system.timeSeries.loadAverage.new(
+          title='Load average 1m',
+          loadTargets=std.map(
+            function(t) t
+                        {
+              expr: 'topk(25, ' + t.expr + ')>0',
+              legendFormat: '{{' + instanceLabel + '}}',
+            },
+            [t.system.systemLoad1],
+          ),
+          cpuCountTarget=t.cpu.cpuCount { hide: true },
+          description='Top 25',
+        )
+        + g.panel.timeSeries.options.legend.withDisplayMode('table')
+        + g.panel.timeSeries.options.legend.withPlacement('right')
+        + g.panel.timeSeries.options.legend.withCalcsMixin([
+          'mean',
+          'max',
+          'lastNotNull',
+        ]),
 
       systemContextSwitchesAndInterrupts:
         commonlib.panels.generic.timeSeries.base.new(
