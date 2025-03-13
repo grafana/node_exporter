@@ -12,11 +12,13 @@ local commonlib = import 'common-lib/common/main.libsonnet';
           [
             // g.panel.row.new("Overview"),
             panels.fleet.fleetOverviewTable { gridPos+: { w: 24, h: 16 } },
-            panels.cpu.cpuUsageTopk { gridPos+: { w: 24 } },
+            panels.cpu.cpuUsageTopk { gridPos+: { w: 12 } },
+            panels.system.systemLoadTopK { gridPos+: { w: 12 } },
             panels.memory.memotyUsageTopKPercent { gridPos+: { w: 24 } },
             panels.disk.diskIOutilPercentTopK { gridPos+: { w: 12 } },
             panels.disk.diskUsagePercentTopK { gridPos+: { w: 12 } },
-            panels.network.networkErrorsAndDroppedPerSecTopK { gridPos+: { w: 24 } },
+            panels.network.networkUsagePerSecTopK { gridPos+: { w: 12 } },
+            panels.network.networkErrorsAndDroppedPerSecTopK { gridPos+: { w: 12 } },
           ]
         ),
       overview:

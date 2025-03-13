@@ -83,7 +83,14 @@ local xtd = import 'github.com/jsonnet-libs/xtd/main.libsonnet';
             {
               targetBlank: false,
               title: 'Drill down to ${__field.name} ${__value.text}',
-              url: 'd/%s?var-%s=${__data.fields.%s}&${__url_time_range}&${datasource:queryparam}' % [this.grafana.dashboards['nodes.json'].uid, instanceLabel, instanceLabel],
+              url: 'd/%s?${__url_time_range}&${datasource:queryparam}' % [this.grafana.dashboards['nodes.json'].uid]
+                   + '&' +
+                   std.join(
+                     '&',
+                     std.map(
+                       function(x) 'var-%s=${__data.fields.%s}' % [x, x], this.config.instanceLabels
+                     )
+                   ),
             },
           ]),
           fieldOverride.byRegexp.new(std.join('|', std.map(utils.toSentenceCase, this.config.groupLabels)))
