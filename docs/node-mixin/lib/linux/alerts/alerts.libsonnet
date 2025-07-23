@@ -433,6 +433,20 @@
               },
             },
             {
+              alert: 'NodeBondingDegraded',
+              expr: |||
+                (node_bonding_slaves{%(filteringSelector)s} - node_bonding_active{%(filteringSelector)s}) != 0
+              ||| % this.config,
+              'for': '5m',
+              labels: {
+                severity: 'warning',
+              },
+              annotations: {
+                summary: 'Bonding interface is degraded.',
+                description: 'Bonding interface {{ $labels.master }} on {{ $labels.instance }} is in degraded state due to one or more slave failures.',
+              },
+            },
+            {
               alert: 'NodeHasRebooted',
               expr: |||
                 (time() - node_boot_time_seconds{%(filteringSelector)s}) < 600
