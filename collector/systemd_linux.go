@@ -216,7 +216,7 @@ func (c *systemdCollector) Update(ch chan<- prometheus.Metric) error {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		begin = time.Now()
+		begin := time.Now()
 		c.collectUnitStatusMetrics(conn, ch, units)
 		level.Debug(c.logger).Log("msg", "collectUnitStatusMetrics took", "duration_seconds", time.Since(begin).Seconds())
 	}()
@@ -225,7 +225,7 @@ func (c *systemdCollector) Update(ch chan<- prometheus.Metric) error {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			begin = time.Now()
+			begin := time.Now()
 			c.collectUnitStartTimeMetrics(conn, ch, units)
 			level.Debug(c.logger).Log("msg", "collectUnitStartTimeMetrics took", "duration_seconds", time.Since(begin).Seconds())
 		}()
@@ -235,7 +235,7 @@ func (c *systemdCollector) Update(ch chan<- prometheus.Metric) error {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			begin = time.Now()
+			begin := time.Now()
 			c.collectUnitTasksMetrics(conn, ch, units)
 			level.Debug(c.logger).Log("msg", "collectUnitTasksMetrics took", "duration_seconds", time.Since(begin).Seconds())
 		}()
@@ -245,7 +245,7 @@ func (c *systemdCollector) Update(ch chan<- prometheus.Metric) error {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			begin = time.Now()
+			begin := time.Now()
 			c.collectTimers(conn, ch, units)
 			level.Debug(c.logger).Log("msg", "collectTimers took", "duration_seconds", time.Since(begin).Seconds())
 		}()
@@ -254,13 +254,13 @@ func (c *systemdCollector) Update(ch chan<- prometheus.Metric) error {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		begin = time.Now()
+		begin := time.Now()
 		c.collectSockets(conn, ch, units)
 		level.Debug(c.logger).Log("msg", "collectSockets took", "duration_seconds", time.Since(begin).Seconds())
 	}()
 
 	if systemdVersion >= minSystemdVersionSystemState {
-		begin = time.Now()
+		begin := time.Now()
 		err = c.collectSystemState(conn, ch)
 		level.Debug(c.logger).Log("msg", "collectSystemState took", "duration_seconds", time.Since(begin).Seconds())
 	}
