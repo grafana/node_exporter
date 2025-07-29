@@ -536,16 +536,17 @@ func (c *mountStatsCollector) Update(ch chan<- prometheus.Metric) error {
 			miStats := mountsInfo[idx]
 			mountAddress = miStats.SuperOptions["addr"]
 		}
+		for _, transport := range stats.Transport {
+			deviceIdentifier := nfsDeviceIdentifier{m.Device, transport.Protocol, mountAddress}
+			i := deviceList[deviceIdentifier]
+			if i {
+				c.logger.Debug("Skipping duplicate device entry", "device", deviceIdentifier)
+				continue
+			}
 
-		deviceIdentifier := nfsDeviceIdentifier{m.Device, stats.Transport.Protocol, mountAddress}
-		i := deviceList[deviceIdentifier]
-		if i {
-			c.logger.Debug("Skipping duplicate device entry", "device", deviceIdentifier)
-			continue
+			deviceList[deviceIdentifier] = true
+			c.updateNFSStats(ch, stats, m.Device, transport.Protocol, mountAddress)
 		}
-
-		deviceList[deviceIdentifier] = true
-		c.updateNFSStats(ch, stats, m.Device, stats.Transport.Protocol, mountAddress)
 	}
 
 	return nil
